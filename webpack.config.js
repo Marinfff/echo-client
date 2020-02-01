@@ -2,7 +2,7 @@ const path = require('path')
 const babelConfig = require('./babel.config.js')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
-const {CleanWebpackPlugin} = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetWebpackPlugin = require('optimize-css-assets-webpack-plugin')
@@ -37,7 +37,7 @@ module.exports = {
     ]
   },
   output: {
-    filename: `js/[name].[hash].js`,
+    filename: 'js/[name].[hash].js',
     path: path.resolve(__dirname, 'dist')
   },
   resolve: {
@@ -62,17 +62,23 @@ module.exports = {
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin([
       {
-        from: path.resolve(__dirname, 'public/images/favicon.ico'),
+        from: path.resolve(__dirname, 'public/'),
         to: path.resolve(__dirname, 'dist')
       }
     ]),
     new MiniCssExtractPlugin({
-      filename: `css/[name].[hash].css`
+      filename: 'css/[name].[hash].css'
     }),
     new VueLoaderPlugin()
   ],
   module: {
     rules: [
+      {
+        enforce: 'pre',
+        test: /\.(js|vue)$/,
+        loader: 'eslint-loader',
+        exclude: /node_modules/
+      },
       {
         test: /\.vue$/,
         loader: 'vue-loader'
@@ -87,7 +93,7 @@ module.exports = {
               hmr: isDev,
               reloadAll: true,
               publicPath: '../'
-            },
+            }
           },
           'css-loader',
           'sass-loader'
@@ -97,15 +103,15 @@ module.exports = {
         test: /\.(png|jpg|svg|gif)$/,
         loader: 'file-loader',
         options: {
-          name: 'images/[name].[hash].[ext]',
-        },
+          name: 'images/[name].[hash].[ext]'
+        }
       },
       {
         test: /\.(ttf|woff|woff2|eot)$/,
         loader: 'file-loader',
         options: {
-          name: 'fonts/[name].[hash].[ext]',
-        },
+          name: 'fonts/[name].[hash].[ext]'
+        }
       },
       {
         test: /\.js$/,
@@ -114,6 +120,9 @@ module.exports = {
           {
             loader: 'babel-loader',
             options: babelConfig
+          },
+          {
+            loader: 'eslint-loader'
           }
         ]
       }
