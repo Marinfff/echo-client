@@ -1,6 +1,5 @@
 const path = require('path')
 const babelConfig = require('./babel.config.js')
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -41,7 +40,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist')
   },
   resolve: {
-    extensions: ['.js', '.vue'],
+    extensions: ['.js'],
     alias: {
       '@': path.resolve(__dirname, 'src')
     }
@@ -68,36 +67,15 @@ module.exports = {
     ]),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[hash].css'
-    }),
-    new VueLoaderPlugin()
+    })
   ],
   module: {
     rules: [
       {
         enforce: 'pre',
-        test: /\.(js|vue)$/,
+        test: /\.(js)$/,
         loader: 'eslint-loader',
         exclude: /node_modules/
-      },
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader'
-      },
-      {
-        test: /\.css$/,
-        use: [
-          'vue-style-loader',
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              hmr: isDev,
-              reloadAll: true,
-              publicPath: '../'
-            }
-          },
-          'css-loader',
-          'sass-loader'
-        ]
       },
       {
         test: /\.(png|jpg|svg|gif)$/,
