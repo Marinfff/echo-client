@@ -1,2 +1,2 @@
-# custom-vue-project-template
-Webpack vue project template
+# echo-client
+Webpack echo-client
